@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Medical Bill Auditor</title>
+</head>
+<body>
+    <h1>🏥 Medical Bill Auditor</h1>
+    <form action="/analyze" method="POST" enctype="multipart/form-data">
+        <label>Select Healthcare Provider (optional):</label><br>
+        <select name="provider">
+            <option value="">--Select provider--</option>
+            {% for p in providers %}
+            <option value="{{ p }}">{{ p }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label>Or Upload Your Own Rules PDF (optional):</label><br>
+        <input type="file" name="rules_pdf"><br><br>
+
+        <label>Upload Patient Bill (PDF):</label><br>
+        <input type="file" name="bill_pdf" required><br><br>
+
+        <label>Household Size:</label><br>
+        <input type="number" name="household_size" value="1" min="1" required><br><br>
+
+        <label>Annual Income (USD):</label><br>
+        <input type="number" name="annual_income" value="0" min="0" required><br><br>
+
+        <label>ZIP Code:</label><br>
+        <input type="text" name="zip_code" maxlength="5" required><br><br>
+
+        <button type="submit">Analyze</button>
+    </form>
+
+    {% if ai_result %}
+        <h2>🔍 AI Overcharge Analysis & Discount Estimate</h2>
+        <pre>{{ ai_result }}</pre>
+
+        <h2>✉️ Draft Dispute Letter</h2>
+        <pre>{{ dispute_letter }}</pre>
+    {% endif %}
+</body>
+</html>
